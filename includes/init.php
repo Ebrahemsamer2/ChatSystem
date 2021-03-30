@@ -2,7 +2,6 @@
 
 define("ROOT", $_SERVER['DOCUMENT_ROOT']);
 
-
 require_once ROOT . "/classes/Session.php";
 require_once ROOT . "/classes/Home.php";
 require_once ROOT . "/classes/User.php";

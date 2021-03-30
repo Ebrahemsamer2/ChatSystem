@@ -31,6 +31,28 @@ class User
 		return $this->id;
 	}
 
+	public static function AdminOrFail()
+	{
+		Session::start();
+		if(! Session::is_set('id'))
+		{
+			header("Location: /admin/login.php");
+			exit;
+		}else
+		{
+			global $db;
+			
+			$user_id = Session::get('id');
+			$c = $db->customQuery("SELECT count(*) as c FROM users WHERE id = ? AND usertype = ?", [$user_id, 'admin'])[0]->c;
+			
+			if($c == 0)
+			{
+				header("Location: /?login=1");
+				exit;
+			}
+		}
+	}
+
 	public function update_profile()
 	{
 		if(isset($_POST['update_profile']))
@@ -161,7 +183,7 @@ class User
 	{
 		if( isset($_POST['register']) )
 		{
-
+			global $db;
 			if(Session::get('token') != $_POST['token'])
 			{
 				Session::set('register-error', "Invalid token");
@@ -257,11 +279,19 @@ class User
 					// updare user login status
 					$db->update(self::$table_name, ['login'], [1], 'id', $user->id);
 					Session::set('user', new User($user->id, $user->username, $user->email));
+
+					if($user->usertype == 'admin')
+						Session::redirect("/admin/index.php");
+
 					Session::redirect("/?home=1");
 				}
 				else 
 				{
 					Session::set('login-error', "Your password is not correct!");
+
+					if($user->usertype == 'admin')
+						Session::redirect("/admin/login.php");
+
 					Session::redirect("/?login=1");
 				}
 			}

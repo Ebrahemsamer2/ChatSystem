@@ -1,5 +1,5 @@
-<?php $page_title = "Chat System | Login"; ?>
-<?php include_once "init.php"; ?>
+<?php $page_title = "Chat System Dashboard login"; ?>
+<?php include_once "../includes/init.php"; ?>
 
 <?php
 
@@ -14,8 +14,8 @@ Session::set('token', $token);
 
 <head>
 
-    <?php include "admin/dist/includes/main_head.php"; ?>
-    <link href="admin/dist/css/pages/login-register-lock.css" rel="stylesheet">
+    <?php include "dist/includes/main_head.php"; ?>
+    <link href="dist/css/pages/login-register-lock.css" rel="stylesheet">
     
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,7 +29,7 @@ Session::set('token', $token);
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-    <?php include "admin/dist/includes/preloader.php"; ?>
+    <?php include "dist/includes/preloader.php"; ?>
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -37,7 +37,7 @@ Session::set('token', $token);
         <div class="login-register" style="background-image:url(../assets/images/background/login-register.jpg);">
             <div class="login-box card">
                 <div class="card-body">
-                    <form method='POST' class="form-horizontal form-material" id="loginform" action="/?login=1">
+                    <form method='POST' class="form-horizontal form-material" id="loginform" action="login.php">
                         <input name='token' type='hidden' value='<?php echo $token; ?>'>
                         
                         <h3 class="box-title m-b-20">Sign In</h3>
@@ -63,13 +63,6 @@ Session::set('token', $token);
                                 <button name='login' class="btn btn-block btn-lg btn-info btn-rounded" type="submit">Log In</button>
                             </div>
                         </div>
-
-                        <div class="form-group m-b-0">
-                            <div class="col-sm-12 text-center">
-                                Don't have an account? <a href="/?register=1" class="text-info m-l-5"><b>Sign Up</b></a>
-                            </div>
-                        </div>
-                        
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
                                 <div class="social">
@@ -79,7 +72,23 @@ Session::set('token', $token);
                             </div>
                         </div>
                     </form>
-
+                    <form class="form-horizontal" id="recoverform" action="index.html">
+                        <div class="form-group ">
+                            <div class="col-xs-12">
+                                <h3>Recover Password</h3>
+                                <p class="text-muted">Enter your Email and instructions will be sent to you! </p>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="col-xs-12">
+                                <input class="form-control" type="text" required="" placeholder="Email"> </div>
+                        </div>
+                        <div class="form-group text-center m-t-20">
+                            <div class="col-xs-12">
+                                <button class="btn btn-primary btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Reset</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -91,10 +100,10 @@ Session::set('token', $token);
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="assets/node_modules/popper/popper.min.js"></script>
-    <script src="assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../assets/node_modules/popper/popper.min.js"></script>
+    <script src="../assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <!--Custom JavaScript -->
     <script type="text/javascript">
         $(function() {
