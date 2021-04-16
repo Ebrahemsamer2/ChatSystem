@@ -8,4 +8,4 @@
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
     <title><?php echo $page_title; ?></title>
     <!-- This page CSS -->
-    <link href="admin/dist/css/style.min.css" rel="stylesheet">
+    <link href="/admin/dist/css/style.min.css" rel="stylesheet">

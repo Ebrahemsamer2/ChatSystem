@@ -40,8 +40,6 @@ else
 	$users_I_blocked = $user->get_blocked_user();
 	$user->unblock_user();
 
-
-
 	$user = $user->get();
 	$hidden_data = [];
 	foreach($user as $user_data){

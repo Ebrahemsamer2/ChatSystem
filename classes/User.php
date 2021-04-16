@@ -36,7 +36,7 @@ class User
 		Session::start();
 		if(! Session::is_set('id'))
 		{
-			header("Location: /admin/login.php");
+			header("Location: /?login=1");
 			exit;
 		}else
 		{
@@ -338,7 +338,10 @@ class User
 		$receiver_id = $result->receiver_id;
 
 		if($sender_id === $user_id) {
-			return [$db->customQuery("SELECT * FROM users WHERE id = ?", [$receiver_id])[0],
+
+			$last_chat = $db->customQuery("SELECT * FROM users WHERE id = ?", [$receiver_id]);
+
+			return [ count($last_chat) > 0 ? $last_chat[0] : null,
 			$db->customQuery("SELECT * FROM messages WHERE (sender_id = ? AND receiver_id = ?) OR (sender_id = ? AND receiver_id = ?) ORDER BY id", [$receiver_id, $sender_id, $sender_id, $receiver_id])];
 		}else 
 		{
@@ -382,6 +385,14 @@ class User
 		$query = "SELECT * FROM users WHERE id IN ($ids) ORDER BY id DESC";
 		
 		return $db->customQuery($query, []);
+	}
+
+	public static function getAllForAdmin()
+	{
+		global $db;
+		$user_id = Session::get('id');
+		$query = "SELECT * FROM users WHERE id NOT IN ($user_id) ORDER BY id DESC LIMIT 20";
+		return $db->customQuery($query, [$user_id]);
 	}
 
 	public static function getAll()
@@ -483,4 +494,14 @@ class User
 		$count = $db->customQuery($query, [0, $user_id])[0]->c;
 		return $count;
 	}
+
+	public static function count_users($where = "")
+	{
+		global $db;
+		$user_id = Session::get('id');
+		$query = "SELECT count(*) as c FROM users $where";
+		$count = $db->customQuery($query, [])[0]->c;
+		return $count;
+	}
+	
 }

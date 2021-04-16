@@ -27,15 +27,20 @@
 		$messages = $last_chat[1];
 		$last_chat = $last_chat[0];
 
-		Message::mark_as_seen($last_chat->id, $user_id);
-
-		Session::set('user_chat_id', $last_chat->id);
+		if($last_chat)
+		{
+			Message::mark_as_seen($last_chat->id, $user_id);
+			Session::set('user_chat_id', $last_chat->id);
+		}
 	}
-	$last_chat_id = $last_chat->id;
-	$query = "SELECT count(*) as c FROM messages WHERE ( sender_id = ? AND receiver_id = ? ) OR ( sender_id = ? AND receiver_id = ? ) ";
+	if($last_chat)
+	{
+		$last_chat_id = $last_chat->id;
+		$query = "SELECT count(*) as c FROM messages WHERE ( sender_id = ? AND receiver_id = ? ) OR ( sender_id = ? AND receiver_id = ? ) ";
 
-	$values = [$last_chat_id, $user_id, $user_id, $last_chat_id];
-	$messages_count = $db->customQuery($query, $values)[0]->c;
+		$values = [$last_chat_id, $user_id, $user_id, $last_chat_id];
+		$messages_count = $db->customQuery($query, $values)[0]->c;
+	}
 ?>
 
 <?php include "includes/chat_header.php"; ?>
@@ -83,10 +88,15 @@
 							<span class="online_icon"></span>
 						</div>
 						<div class="user_info">
+							<?php if($last_chat): ?>
 							<span>Chat with <?php echo $last_chat->username; ?></span>
 							<p><?php echo $messages_count; ?> Messages</p>
+							<?php else: ?>
+							<span>Chat with Unavailable User.</span>
+							<?php endif; ?>
 						</div>
 					</div>
+					<?php if($last_chat): ?>
 					<span id="action_menu_btn"><i class="fas fa-ellipsis-v"></i></span>
 					<div class="action_menu">
 						<ul>
@@ -95,6 +105,7 @@
 							<li><i class="fas fa-ban"></i> Block</li>
 						</ul>
 					</div>
+					<?php endif; ?>
 				</div>
 
 				<div id='<?php echo $user_id; ?>' class="card-body msg_card_body">
@@ -150,6 +161,8 @@
 
 					</div>
 				</div>
+
+				<?php if($last_chat): ?>
 				<div class="card-footer send_area">
 					<div class="input-group">
 						<div class="input-group-append">
@@ -161,6 +174,7 @@
 						</div>
 					</div>
 				</div>
+				<?php endif; ?>
 			</div>
 		</div>
 	</div>
