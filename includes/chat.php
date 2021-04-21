@@ -1,6 +1,6 @@
 <?php
-	require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/User.php";
-	require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/Message.php";
+	
+	require_once $_SERVER['DOCUMENT_ROOT'] . "/includes/init.php";
 
 	Message::sendMessage();
 

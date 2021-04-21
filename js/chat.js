@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	let height = $(document).height();
+	let height = $(".msg_card_body > div").height();
 	$("#"+$(".msg_card_body").attr("id")).animate({scrollTop: height})
 
 	
@@ -49,8 +49,9 @@ $(document).ready(function(){
 					let id = data.id;
 					$("#send_input").val("");
 					$("#"+id).load(location.href + " #"+id + " > div")
-					let height = $(document).height();
-					$("#"+id).animate({scrollTop: height})
+					
+					let height = $(".msg_card_body > div").height();
+					$("#"+$(".msg_card_body").attr("id")).animate({scrollTop: height})
 
 					if( $("li.active").length === 0)
 						$("#contact-list").load(location.href + " #contact-list > li")

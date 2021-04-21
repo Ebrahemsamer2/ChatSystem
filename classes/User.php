@@ -1,7 +1,6 @@
 <?php 
 
-require_once "Database.php";
-require_once "Session.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . '/includes/init.php';
 
 class User
 {
@@ -387,11 +386,11 @@ class User
 		return $db->customQuery($query, []);
 	}
 
-	public static function getAllForAdmin()
+	public static function getAllForAdmin($limit = 50)
 	{
 		global $db;
 		$user_id = Session::get('id');
-		$query = "SELECT * FROM users WHERE id NOT IN ($user_id) ORDER BY id DESC LIMIT 20";
+		$query = "SELECT * FROM users WHERE id NOT IN ($user_id) ORDER BY id DESC LIMIT $limit";
 		return $db->customQuery($query, [$user_id]);
 	}
 

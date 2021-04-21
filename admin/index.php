@@ -5,6 +5,7 @@ User::AdminOrFail();
 $users_count = User::count_users();
 $users_online_count = User::count_users("WHERE login = 1");
 
+$recent_users = User::getAllForAdmin(8);
 ?>
 
 <!DOCTYPE html>
@@ -281,62 +282,23 @@ $users_online_count = User::count_users("WHERE login = 1");
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php foreach($recent_users as $key => $user):
+                                            $work_as = $user->work_as == '' || empty($user->work_as) ? 'not found' : $user->work_as;
+                                            $created_at = explode(" ", $user->created_at)[0];
+                                            $status = $user->login;
+                                            $word_as_class = $user->work_as == '' ? 'badge-warning' : 'badge-info';
+
+                                            $status_class = $status == '0' ? 'badge-danger' : 'badge-success';
+                                            $status_word = $status == '1' ? 'Online' : 'Offline';
+                                            ?>
                                         <tr>
-                                            <td class="text-center">1</td>
-                                            <td class="txt-oflo">Elite admin</td>
-                                            <td><span class="badge badge-success badge-pill">sale</span> </td>
-                                            <td class="txt-oflo">April 18, 2017</td>
-                                            <td><span class="text-success">$24</span></td>
+                                            <td class="text-center"><?php echo ++$key; ?></td>
+                                            <td class="txt-oflo"><?php echo $user->username; ?></td>
+                                            <td><span class="badge <?php echo $status_class; ?> badge-pill"><?php echo $status_word; ?></span></td>
+                                            <td class="txt-oflo"><?php echo $created_at; ?></td>
+                                            <td><span class="badge <?php echo $word_as_class; ?>"><?php echo $work_as; ?></span></td>
                                         </tr>
-                                        <tr>
-                                            <td class="text-center">2</td>
-                                            <td class="txt-oflo">Real Homes WP Theme</td>
-                                            <td><span class="badge badge-info badge-pill">extended</span></td>
-                                            <td class="txt-oflo">April 19, 2017</td>
-                                            <td><span class="text-info">$1250</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">3</td>
-                                            <td class="txt-oflo">Ample Admin</td>
-                                            <td><span class="badge badge-info badge-pill">extended</span></td>
-                                            <td class="txt-oflo">April 19, 2017</td>
-                                            <td><span class="text-info">$1250</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">4</td>
-                                            <td class="txt-oflo">Medical Pro WP Theme</td>
-                                            <td><span class="badge badge-danger badge-pill">tax</span></td>
-                                            <td class="txt-oflo">April 20, 2017</td>
-                                            <td><span class="text-danger">-$24</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">5</td>
-                                            <td class="txt-oflo">Hosting press html</td>
-                                            <td><span class="badge badge-success badge-pill">sale</span></td>
-                                            <td class="txt-oflo">April 21, 2017</td>
-                                            <td><span class="text-success">$24</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">6</td>
-                                            <td class="txt-oflo">Digital Agency PSD</td>
-                                            <td><span class="badge badge-success badge-pill">sale</span> </td>
-                                            <td class="txt-oflo">April 23, 2017</td>
-                                            <td><span class="text-danger">-$14</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">7</td>
-                                            <td class="txt-oflo">Helping Hands WP Theme</td>
-                                            <td><span class="badge badge-warning badge-pill">member</span></td>
-                                            <td class="txt-oflo">April 22, 2017</td>
-                                            <td><span class="text-success">$64</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-center">8</td>
-                                            <td class="txt-oflo">Ample Admin</td>
-                                            <td><span class="badge badge-info badge-pill">extended</span></td>
-                                            <td class="txt-oflo">April 19, 2017</td>
-                                            <td><span class="text-info">$1250</span></td>
-                                        </tr>
+                                    <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -466,56 +428,7 @@ $users_online_count = User::count_users("WHERE login = 1");
                 <!-- Right sidebar -->
                 <!-- ============================================================== -->
                 <!-- .right-sidebar -->
-                <div class="right-sidebar">
-                    <div class="slimscrollright">
-                        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
-                        <div class="r-panel-body">
-                            <ul id="themecolors" class="m-t-20">
-                                <li><b>With Light sidebar</b></li>
-                                <li><a href="javascript:void(0)" data-skin="skin-default" class="default-theme">1</a></li>
-                                <li><a href="javascript:void(0)" data-skin="skin-green" class="green-theme">2</a></li>
-                                <li><a href="javascript:void(0)" data-skin="skin-red" class="red-theme">3</a></li>
-                                <li><a href="javascript:void(0)" data-skin="skin-blue" class="blue-theme working">4</a></li>
-                                <li><a href="javascript:void(0)" data-skin="skin-purple" class="purple-theme">5</a></li>
-                                <li><a href="javascript:void(0)" data-skin="skin-megna" class="megna-theme">6</a></li>
-                                <li class="d-block m-t-30"><b>With Dark sidebar</b></li>
-                                <li><a href="javascript:void(0)" data-skin="skin-default-dark" class="default-dark-theme ">7</a></li>
-                                <li><a href="javascript:void(0)" data-skin="skin-green-dark" class="green-dark-theme">8</a></li>
-                                <li><a href="javascript:void(0)" data-skin="skin-red-dark" class="red-dark-theme">9</a></li>
-                                <li><a href="javascript:void(0)" data-skin="skin-blue-dark" class="blue-dark-theme">10</a></li>
-                                <li><a href="javascript:void(0)" data-skin="skin-purple-dark" class="purple-dark-theme">11</a></li>
-                                <li><a href="javascript:void(0)" data-skin="skin-megna-dark" class="megna-dark-theme ">12</a></li>
-                            </ul>
-                            <ul class="m-t-20 chatonline">
-                                <li><b>Chat option</b></li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/1.jpg" alt="user-img" class="img-circle"> <span>Varun Dhavan <small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/2.jpg" alt="user-img" class="img-circle"> <span>Genelia Deshmukh <small class="text-warning">Away</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/3.jpg" alt="user-img" class="img-circle"> <span>Ritesh Deshmukh <small class="text-danger">Busy</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/4.jpg" alt="user-img" class="img-circle"> <span>Arijit Sinh <small class="text-muted">Offline</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/5.jpg" alt="user-img" class="img-circle"> <span>Govinda Star <small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/6.jpg" alt="user-img" class="img-circle"> <span>John Abraham<small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/7.jpg" alt="user-img" class="img-circle"> <span>Hritik Roshan<small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="../assets/images/users/8.jpg" alt="user-img" class="img-circle"> <span>Pwandeep rajan <small class="text-success">online</small></span></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <?php include "dist/includes/right_sidebar.php"; ?>
                 <!-- ============================================================== -->
                 <!-- End Right sidebar -->
                 <!-- ============================================================== -->

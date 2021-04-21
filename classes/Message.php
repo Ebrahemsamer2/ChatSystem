@@ -1,7 +1,6 @@
 <?php 
 
-require_once "Database.php";
-require_once "Session.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . '/includes/init.php';
 
 class Message
 {
@@ -39,16 +38,21 @@ class Message
 		
 		if(isset($_POST['send_message']))
 		{
-			$receiver_id = filter_input(INPUT_POST,'id', FILTER_SANITIZE_NUMBER_INT);
+			global $db;
+			global $hashids;
+
+			$receiver_id = filter_input(INPUT_POST,'id', FILTER_SANITIZE_STRING);
 			$the_message = filter_input(INPUT_POST,'the_message', FILTER_SANITIZE_STRING);
+
+			$receiver_id = $hashids->decode($receiver_id)[0];
 
 			$user_chat_id = Session::get('user_chat_id');
 
-			if($the_message === "" || $receiver_id === "" || $receiver_id === 0)
+			if($the_message === "" || $receiver_id === "" || $receiver_id == 0)
 			{
 				echo json_encode($respond);exit;
 			}
-			if($user_chat_id !== $receiver_id )
+			if($user_chat_id != $receiver_id )
 			{
 				echo json_encode($respond);exit;
 			}
