@@ -22,7 +22,6 @@ if(isset($_GET['cid']) && $_GET['cid'] !== '')
         Message::mark_as_seen($last_chat->id, $user_id);
     }
     else { Session::redirect("/?chat=1"); }
-
     $username_conversation = $last_chat->username;
 }
 else

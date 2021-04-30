@@ -1,8 +1,7 @@
 $(document).ready(function(){
 	let height = $(".msg_card_body > div").height();
 	$("#"+$(".msg_card_body").attr("id")).animate({scrollTop: height})
-
-	
+		
 	$('#action_menu_btn').click(function(){
 		$('.action_menu').toggle();
 	});
@@ -55,15 +54,11 @@ $(document).ready(function(){
 
 					if( $("li.active").length === 0)
 						$("#contact-list").load(location.href + " #contact-list > li")
-						
 				}
 			})
 		}
 	})
-
-
 	setInterval(function(){
 		$(".msg_card_body").load(location.href + " .msg_card_body > div")
 	}, 5000);
-
 });

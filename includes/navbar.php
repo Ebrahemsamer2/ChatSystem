@@ -32,6 +32,14 @@
         <li class="nav-item">
           <a class="nav-link" href="/?logout=1" tabindex="-1" aria-disabled="true">Sign out</a>
         </li>
+
+        <?php if(User::isAdmin()): ?>
+        <li class="nav-item">
+          <a class="nav-link border-danger text-danger" href="admin/index.php" tabindex="-1" aria-disabled="true">Admin Dashboard</a>
+        </li>
+      <?php endif; ?>
+        
+
       </ul>
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

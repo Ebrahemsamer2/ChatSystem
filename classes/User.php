@@ -30,6 +30,21 @@ class User
 		return $this->id;
 	}
 
+	public static function isAdmin()
+	{
+		Session::start();
+		global $db;
+
+		$user_id = Session::get('id');
+		$c = $db->customQuery("SELECT count(*) as c FROM users WHERE id = ? AND usertype = ?", [$user_id, 'admin'])[0]->c;
+
+		if($c == 0)
+		{
+			return false;
+		}
+		return true;
+	}
+
 	public static function AdminOrFail()
 	{
 		Session::start();
@@ -37,18 +52,11 @@ class User
 		{
 			header("Location: /?login=1");
 			exit;
-		}else
+		}
+		if(! self::isAdmin())	
 		{
-			global $db;
-			
-			$user_id = Session::get('id');
-			$c = $db->customQuery("SELECT count(*) as c FROM users WHERE id = ? AND usertype = ?", [$user_id, 'admin'])[0]->c;
-			
-			if($c == 0)
-			{
-				header("Location: /?login=1");
-				exit;
-			}
+			header("Location: /?login=1");
+			exit;
 		}
 	}
 
