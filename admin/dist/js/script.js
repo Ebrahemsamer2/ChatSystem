@@ -56,4 +56,43 @@ $(function(){
 	setInterval(function(){
 		$(".chat-rbox").load(location.href + " .chat-rbox > ul")
 	}, 5000);	
+
+
+	$(document).on("click", ".save-bad-words", function(e){
+		e.preventDefault();
+
+		let bad_words = $("#bad_words").val();
+		let old_bad_words = $("#old_bad_words").val();
+		let formData = new FormData();
+		formData.append('bad_words', bad_words);
+		formData.append('old_bad_words', old_bad_words);
+		formData.append('save_bad_words', 1);
+
+		$.ajax({
+			url: "/admin/bad_words.php",
+			type: "POST",
+			dataType: "JSON",
+			processData: false,
+			contentType: false,
+			data: formData,
+			success: function(data)
+			{
+				let alert_class = "";
+				if(data.success)
+				{
+					alert_class = "alert alert-success";
+				}
+				else
+				{
+					alert_class = "alert alert-danger";
+				}
+				$("#js-alerts").text(data.message);
+				$("#js-alerts").addClass(alert_class);
+
+				setTimeout(function(){ $("#js-alerts").fadeOut(); }, 3000);
+			}
+
+		});
+
+	})
 })

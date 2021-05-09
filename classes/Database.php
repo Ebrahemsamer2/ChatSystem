@@ -13,7 +13,7 @@ class Database
 		$username = "root";
 		$password = "";
 		$dbname = "chat";
-		$dsn = "mysql:host=localhost;dbname=".$dbname."";
+		$dsn = "mysql:host=localhost;dbname=".$dbname.";charset=utf8";
 		try
 		{
 			$this->pdo = new PDO($dsn, $username, $password, $this->options);

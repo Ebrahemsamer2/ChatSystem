@@ -40,6 +40,7 @@ class Message
 		{
 			global $db;
 			global $hashids;
+			global $filter;
 
 			$receiver_id = filter_input(INPUT_POST,'id', FILTER_SANITIZE_STRING);
 			$the_message = filter_input(INPUT_POST,'the_message', FILTER_SANITIZE_STRING);
@@ -57,10 +58,34 @@ class Message
 				echo json_encode($respond);exit;
 			}
 
+			$user = Session::get('user');
+
+			$the_message_filtered = $filter->filter($the_message);
+			if( $user->usertype == 'user' && $the_message !== $the_message_filtered)
+			{
+				User::crossBadWords();
+				if(User::checkTermination())
+				{
+					$respond['success'] = false;
+					$respond['status'] = 0;
+
+					$db->update('users', ['login'], [0], 'id', $sender_id);
+					$db->update('users', ['status'], [0], 'id', $sender_id);
+
+					Session::unset('id');
+					Session::unset('username');
+					Session::unset('email');
+					Session::unset('user');
+					
+					session_destroy();
+					echo json_encode($respond);exit;
+				}
+			}
+
 			$datetime = new Datetime();
 			$now = $datetime->format('Y-m-d H:i');
 
-			$values = [$sender_id, $receiver_id, $the_message, $now];
+			$values = [$sender_id, $receiver_id, $the_message_filtered, $now];
 			if(self::send($values))
 			{
 				$respond['success'] = true;

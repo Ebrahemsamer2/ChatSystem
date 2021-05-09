@@ -11,11 +11,12 @@ class User
 	private $id;
 	private $username;
 	private $email;
-	public function __construct($id, $username, $email)
+	public function __construct($id, $username, $email, $usertype)
 	{
 		$this->id = $id;
 		$this->username = $username;
 		$this->email = $email;
+		$this->usertype = $usertype;
 	}
 	public function get_username()
 	{
@@ -229,7 +230,7 @@ class User
 
 					$db->update(self::$table_name, ['login'], [1], 'id', $user_id);
 
-					Session::set('user', new User($user_id, $username, $email));
+					Session::set('user', new User($user_id, $username, $email, 'user'));
 					Session::redirect("/?home=1");
 				}
 				else 
@@ -277,15 +278,21 @@ class User
 			{
 				$hashed_password = $user->password;
 
-				if( password_verify($password, $hashed_password) )
+				if(password_verify($password, $hashed_password) )
 				{
+					if($user->status == 0)
+					{
+						Session::set('login-error', "Sorry, You are susbended");
+						Session::redirect("/?login=1");
+					}
+
 					Session::set('id', $user->id);
 					Session::set('username', $user->username);
 					Session::set('email', $user->email);
 
 					// updare user login status
 					$db->update(self::$table_name, ['login'], [1], 'id', $user->id);
-					Session::set('user', new User($user->id, $user->username, $user->email));
+					Session::set('user', new User($user->id, $user->username, $user->email, $user->usertype));
 
 					if($user->usertype == 'admin')
 						Session::redirect("/admin/index.php");
@@ -511,4 +518,20 @@ class User
 		return $count;
 	}
 	
+	public static function crossBadWords()
+	{
+		global $db;
+		$sender_id = Session::get('id');
+
+		$db->customQuery("UPDATE users SET termination = termination - 10 WHERE id = ?", [$sender_id], 'update');
+	}
+	public static function checkTermination()
+	{
+		global $db;
+		$sender_id = Session::get('id');
+		
+		$termination = $db->customQuery("SELECT id, termination FROM users WHERE id = ?", [$sender_id])[0]->termination;
+
+		return $termination <= -100;
+	}
 }

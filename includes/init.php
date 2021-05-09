@@ -8,6 +8,9 @@ require_once ROOT . "/classes/Session.php";
 require_once ROOT . "/classes/Home.php";
 require_once ROOT . "/classes/User.php";
 require_once ROOT . "/classes/Message.php";
+require_once ROOT . "/classes/Filter.php";
+
+$filter = new BadWordsFilter();
 
 Session::start();
 

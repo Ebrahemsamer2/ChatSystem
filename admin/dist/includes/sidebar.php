@@ -25,6 +25,8 @@
 
                         <li> <a class="waves-effect waves-dark" href="/admin/chat.php" aria-expanded="false"><i class="fa fa-comments"></i><span class="hide-menu">Chat</span></a></li>
 
+                        <li> <a class="waves-effect waves-dark" href="/admin/bad_words.php" aria-expanded="false"><i class="fa fa-hashtag"></i><span class="hide-menu">Bad Words Filter</span></a></li>
+
                         <li class="nav-small-cap">--- SUPPORT</li>
                         <li> <a target="_blank" class="waves-effect waves-dark" href="/?home=1" aria-expanded="false"><i class="fa fa-eye"></i><span class="hide-menu">VISIT SITE</span></a></li>
                         <li> <a class="waves-effect waves-dark" href="/?login=1" aria-expanded="false"><i class="fa fa-sign-out"></i><span class="hide-menu">Logout</span></a></li>

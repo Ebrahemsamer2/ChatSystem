@@ -37,6 +37,9 @@ Session::set('token', $token);
         <div class="login-register" style="background-image:url(../assets/images/background/login-register.jpg);">
             <div class="login-box card">
                 <div class="card-body">
+
+                    <?php include "includes/alert_messages.php"; ?>
+
                     <form method='POST' class="form-horizontal form-material" id="loginform" action="/?login=1">
                         <input name='token' type='hidden' value='<?php echo $token; ?>'>
                         

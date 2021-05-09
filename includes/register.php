@@ -33,6 +33,8 @@ Session::set('token', $token);
             <div class="login-box card">
                 <div class="card-body">
 
+                    <?php include "includes/alert_messages.php"; ?>
+                    
                     <form method='POST' class="form-horizontal form-material" id="loginform" action="/?register=1">
                         
                         <input name='token' type='hidden' value='<?php echo $token; ?>'>
