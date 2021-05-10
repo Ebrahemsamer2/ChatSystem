@@ -237,4 +237,74 @@ $(function(){
 			}
 		})
 	})
+
+	$(document).on("focus", "#user_search_input", function(){
+		$(this).parents("form").addClass("user_searching");
+	})
+	$(document).on("focusout", "#user_search_input", function(){
+		let value = $(this).val();
+		if(value == "")
+			$(this).parents("form").removeClass("user_searching");
+	})
+	
+	$(document).on("input", "#user_search_input", function(){
+		let value = $(this).val().trim();
+		if(value == "")
+		{
+			$("#search_result").remove();
+		}
+		else
+		{
+			let formData = new FormData();
+			formData.append('search_user', 1);
+			formData.append('value', value);
+
+			$.ajax({
+				url: 'includes/navbar.php',
+				type: 'POST',
+				dataType: "JSON",
+				processData: false,
+				contentType: false,
+				data: formData,
+				success: function(data)
+				{
+					$("#search_result").remove();
+
+					let html = '<div id="search_result">';
+					if(data.success)
+					{
+						let result = data.users_result;
+						for(let res of result)
+						{
+							let username = res.username;
+							let login = res.login == 1 ? 'Online' : 'Offline';
+							let login_class = login == 'Online' ? 'text-success' : 'text-danger';
+							let user_image = res.image == '' || res.image == null ? 'user.jpg' : res.image;
+							let image_source = '/user_images/' + user_image;
+
+							html += '<a href="/?view_profile=" class="text-decoration-none text-secondary"><div class="search_user">';
+							html += '<div class="row">';
+							html += '<div class="col-12">';
+							html += '<img width="50" class="img-fluid" src="'+ image_source +'">';
+							html += '<span>'+ username +'</span>';
+							html += '<span class="'+ login_class +'"> '+ login +'</span>';
+							html += '</div>';
+							html += '</div>';
+							html += '</div>';
+							html += '</a>';
+
+						}
+					}
+					else
+					{
+						html += "<p>No Users Found!</p>";
+					}
+					html += '</div>';
+
+					if($("#search_result").length == 0)
+						$("form.user_searching").append(html);
+				}
+			})
+		}
+	})
 })

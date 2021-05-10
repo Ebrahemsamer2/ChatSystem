@@ -20,7 +20,37 @@ body
 }
 .navbar-expand-lg .navbar-nav .nav-link { padding-right: .8rem;padding-left: .8rem;  }
 
+@media only screen and (min-width: 992px)
+{
+    .user_searching
+    {
+        width: 40%;
+    }
+}
 
+.user_searching
+{
+    position: relative;
+}
+#search_result {
+    position: absolute;
+    top: 90%;
+    width: 100%;
+    background: #eaeaea;
+    padding: 10px;
+    z-index: 1000;
+}
+#search_result .search_user {
+    margin-bottom: 10px;
+    transition: .3s ease-in-out;
+}
+#search_result .search_user:hover {
+    background: #dcdcdc;
+}
+
+#search_result img {
+    border-radius: 50%;
+}
 
 /* Home page */
 

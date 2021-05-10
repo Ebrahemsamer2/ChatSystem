@@ -2,6 +2,8 @@
   require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/User.php";
   require_once $_SERVER['DOCUMENT_ROOT'] . "/classes/Message.php";
 
+  User::searchUser();
+
   $count_not_seen_message = User::count_not_seen_messages();
   if( $count_not_seen_message > 9 ) { $count_not_seen_message = "9+"; }
 ?>
@@ -38,12 +40,10 @@
           <a class="nav-link border-danger text-danger" href="admin/index.php" tabindex="-1" aria-disabled="true">Admin Dashboard</a>
         </li>
       <?php endif; ?>
-        
-
       </ul>
       <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-danger" type="submit">Search</button>
+        <input id='user_search_input' class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        
       </form>
     </div>
   </div>

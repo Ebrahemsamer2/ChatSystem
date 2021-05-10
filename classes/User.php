@@ -46,6 +46,36 @@ class User
 		return true;
 	}
 
+	public static function searchUser()
+	{
+		if(isset($_POST['search_user']))
+		{
+			global $db;
+			Session::start();
+			$respond = [];
+			$respond['success'] = false;
+
+			$user_id = Session::get('id');
+			$value = filter_input(INPUT_POST, 'value', FILTER_SANITIZE_STRING);
+
+			$blocked_ids = self::blocked_users();
+			$query = "SELECT * FROM users WHERE username LIKE '%$value%' AND id != $user_id";
+			if(count($blocked_ids) > 0){
+				$blocked_ids_imploded = implode(",", $blocked_ids);
+				$query .= " AND id NOT IN ('$blocked_ids_imploded') ";
+			}
+
+			$users_result = $db->customQuery($query, []);
+			if($users_result)
+			{
+				$respond['success'] = true;
+				$respond['users_result'] = $users_result;
+			}
+			echo json_encode($respond);
+			exit;
+		}
+	}
+
 	public static function AdminOrFail()
 	{
 		Session::start();
